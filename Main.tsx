@@ -14,7 +14,9 @@ const Main = () => {
 	const appInit = async () => {
 		try {
 			await Font.loadAsync({
-				RubicRegular: require("./src/assets/fonts/Rubic-Regular.ttf"),
+				RubikRegular: require("./src/assets/fonts/Rubik-Regular.ttf"),
+				RubikItalic: require("./src/assets/fonts/Rubik-Italic.ttf"),
+				RubikBold: require("./src/assets/fonts/Rubik-Bold.ttf"),
 			});
 			const isOnboardingPassed = await AsyncStorage.getItem("onboarding_completed");
 			if (isOnboardingPassed) {
