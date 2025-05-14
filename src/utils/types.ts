@@ -8,6 +8,7 @@ export type TabStackParams = {
 
 export type AuthStackParams = {
 	OnboardingScreen: undefined;
+	GetStartedScreen: undefined;
 	PaywallScreen: {
 		defaulOption?: string;
 	};
@@ -67,3 +68,5 @@ export type CategoryType = {
 		updatedAt: Date;
 	};
 };
+
+export type FontTypes = "light" | "regular" | "medium" | "bold" | "extraBold";
