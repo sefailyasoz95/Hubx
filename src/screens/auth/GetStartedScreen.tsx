@@ -7,6 +7,7 @@ import { Image } from "expo-image";
 import FontedText from "../../components/FontedText";
 import { DEVICE_HEIGHT, DEVICE_WIDTH, isSmallDevice } from "../../utils/constants";
 import Button from "../../components/Button";
+import { responsiveSpacing } from "../../utils/helpers";
 type Props = NativeStackScreenProps<AuthStackParams, "GetStartedScreen">;
 
 const GetStartedScreen = ({ navigation, route }: Props) => {
@@ -23,13 +24,9 @@ const GetStartedScreen = ({ navigation, route }: Props) => {
 				</View>
 				<FontedText text='Identify more than 3000+ plants and 88% accuracy.' style={styles.subtext} />
 			</View>
-			<Image
-				source={require("../../assets/images/onboarding-1.png")}
-				style={styles.onboardingOne}
-				contentFit='contain'
-			/>
+			<Image source={require("../../assets/images/get-started.png")} style={styles.image} contentFit='contain' />
 			<View style={styles.blurContainer2} />
-			<Button text='Get Started' onPress={handleGetStarted} />
+			<Button text='Get Started' onPress={handleGetStarted} style={styles.getStarted} />
 			<View style={styles.bottomTextContainer}>
 				<FontedText text='By tapping next, you are agreeing to PlantID ' style={styles.bottomText} />
 				<View style={{ flexDirection: "row" }}>
@@ -103,12 +100,7 @@ const styles = StyleSheet.create({
 		height: 400,
 		zIndex: -1,
 	},
-	circle: {
-		width: 300,
-		height: 300,
-		borderRadius: "50%",
-	},
-	onboardingOne: {
+	image: {
 		width: DEVICE_WIDTH,
 		aspectRatio: isSmallDevice ? 0.8 : 0.65,
 	},
@@ -141,5 +133,8 @@ const styles = StyleSheet.create({
 	},
 	underline: {
 		textDecorationLine: "underline",
+	},
+	getStarted: {
+		marginTop: responsiveSpacing(-30),
 	},
 });

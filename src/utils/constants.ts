@@ -13,32 +13,4 @@ export const Font_Types: Record<FontTypes, FontTypes> = {
 	regular: "regular",
 	medium: "medium",
 };
-export const isSmallDevice = DEVICE_HEIGHT < 700;
-export const Onboarding = [
-	{
-		id: 1,
-		headerText1: "Welcome to",
-		headerText2: "PlantApp",
-		hasUnderline: false,
-		subText1: "Identify more than 3000+ plants and",
-		subText2: "88% accuracy.",
-		image: require("../assets/images/onboarding-1.png"),
-		buttonText: "Get Started",
-		showIndicator: false,
-		isPaywall: false,
-		fontType: Font_Types.regular,
-	},
-	{
-		id: 2,
-		headerText1: "Welcome to",
-		headerText2: "PlantApp",
-		hasUnderline: false,
-		subText1: "Identify more than 3000+ plants and",
-		subText2: "88% accuracy.",
-		image: require("../assets/images/onboarding-1.png"),
-		buttonText: "Get Started",
-		showIndicator: false,
-		isPaywall: false,
-		fontType: Font_Types.regular,
-	},
-];
+export const isSmallDevice = DEVICE_WIDTH < 400;

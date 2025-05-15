@@ -1,5 +1,6 @@
 import { StyleSheet, Text, TextStyle, TouchableOpacity, TouchableOpacityProps } from "react-native";
 import React from "react";
+import { responsiveFontSize } from "../utils/helpers";
 
 type Props = TouchableOpacityProps & {
 	text: string;
@@ -8,7 +9,7 @@ type Props = TouchableOpacityProps & {
 
 const Button = ({ text, textStyle, ...props }: Props) => {
 	return (
-		<TouchableOpacity style={[props.style, styles.button]} {...props}>
+		<TouchableOpacity {...props} style={[styles.button, props.style]}>
 			<Text style={styles.buttonText}>{text}</Text>
 		</TouchableOpacity>
 	);
@@ -24,11 +25,10 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		width: "100%",
 		height: 56,
-		marginTop: -40,
 	},
 	buttonText: {
 		color: "white",
 		fontWeight: "600",
-		fontSize: 15,
+		fontSize: responsiveFontSize(16),
 	},
 });
