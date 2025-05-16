@@ -22,7 +22,7 @@ const Main = () => {
 
 	const appInit = async () => {
 		try {
-			// await Font.loadAsync();
+			// await AsyncStorage.removeItem("onboarding_completed");
 			const isOnboardingPassed = await AsyncStorage.getItem("onboarding_completed");
 			if (isOnboardingPassed) {
 				dispatch(signIn(true));

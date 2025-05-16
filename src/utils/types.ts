@@ -19,7 +19,7 @@ export type AuthStackParams = {
 	OnboardingScreen: undefined;
 	GetStartedScreen: undefined;
 	PaywallScreen: {
-		defaulOption?: "yearly" | "monthly";
+		defaulOption?: PremiumTypes;
 	};
 };
 
@@ -86,3 +86,5 @@ export type PaywallOptionType = {
 	title: string;
 	subtitle: string;
 };
+
+export type PremiumTypes = "yearly" | "monthly";

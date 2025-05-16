@@ -24,6 +24,7 @@ const OnboardingTwo = ({}: Props) => {
 				</View>
 			</View>
 			<View>
+				<Image source={require("../assets/images/leaves.png")} style={styles.leaves} contentFit='contain' />
 				<Image source={require("../assets/images/onboarding-2.png")} style={styles.image} contentFit='contain' />
 				<View style={styles.artwork}>
 					<Image source={require("../assets/images/onboarding-2-1.png")} style={styles.image2} contentFit='contain' />
@@ -38,11 +39,11 @@ export default OnboardingTwo;
 
 const styles = StyleSheet.create({
 	container: {
-		paddingHorizontal: 24,
 		width: DEVICE_WIDTH,
 		overflow: "hidden",
 	},
 	header: {
+		paddingHorizontal: 24,
 		width: "100%",
 	},
 	welcomeTextContainer: {
@@ -69,13 +70,15 @@ const styles = StyleSheet.create({
 	},
 	image: {
 		width: DEVICE_WIDTH,
-		aspectRatio: isSmallDevice ? 0.78 : 0.65,
+		aspectRatio: isSmallDevice ? 0.7 : 0.65,
 		alignSelf: "center",
 	},
 	image2: {
-		width: "100%",
-		height: "100%",
+		width: "95%",
+		height: "95%",
 		zIndex: 2,
+		top: isSmallDevice ? 5 : 20,
+		right: 5,
 	},
 	underline: {
 		height: 85,
@@ -106,5 +109,11 @@ const styles = StyleSheet.create({
 		width: 400,
 		height: 400,
 		top: responsiveSpacing(-120),
+	},
+	leaves: {
+		position: "absolute",
+		width: DEVICE_WIDTH,
+		height: DEVICE_HEIGHT,
+		top: isSmallDevice ? -DEVICE_HEIGHT * 0.25 : -DEVICE_HEIGHT * 0.29,
 	},
 });

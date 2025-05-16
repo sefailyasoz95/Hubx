@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
+import { FlatList, Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import {
@@ -9,6 +9,7 @@ import {
 	MaterialCommunityIconsName,
 	MaterialIconName,
 	PaywallOptionType,
+	PremiumTypes,
 } from "../../utils/types";
 import { Image } from "expo-image";
 import { DEVICE_HEIGHT, DEVICE_WIDTH, isSmallDevice, PaywallFeatures, PremiumOptions } from "../../utils/constants";
@@ -16,13 +17,19 @@ import { FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons } from "@e
 import FontedText from "../../components/FontedText";
 import { responsiveFontSize, responsiveSpacing } from "../../utils/helpers";
 import { BlurView } from "expo-blur";
+import Button from "../../components/Button";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useAppDispatch } from "../../redux/store";
+import { signIn } from "../../redux/reducer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type Props = NativeStackScreenProps<AuthStackParams, "PaywallScreen">;
 
 const PaywallScreen = ({ navigation, route }: Props) => {
 	const { defaulOption } = route.params;
-	const [selectedOption, setselectedOption] = useState<"yearly" | "monthly">(defaulOption ?? "yearly");
-	const handleX = () => {};
+	const [selectedOption, setselectedOption] = useState<PremiumTypes>(defaulOption ?? "yearly");
+	const dispatch = useAppDispatch();
+	const { bottom } = useSafeAreaInsets();
 	const renderIcon = (iconLibrary: PaywallOptionType["iconLibrary"], iconName: IconName) => {
 		switch (iconLibrary) {
 			case "Ionicons":
@@ -35,6 +42,11 @@ const PaywallScreen = ({ navigation, route }: Props) => {
 				return <MaterialCommunityIcons name={iconName as MaterialCommunityIconsName} color={"white"} size={18} />;
 		}
 	};
+	const handlePremium = async () => {
+		await AsyncStorage.setItem("onboarding_completed", "true");
+		dispatch(signIn(true));
+	};
+	const handleX = handlePremium; // since no actual premium flow
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity style={styles.x} onPress={handleX}>
@@ -64,19 +76,59 @@ const PaywallScreen = ({ navigation, route }: Props) => {
 						</BlurView>
 					)}
 				/>
-				<View style={styles.bottomCTA}>
+				<View style={[styles.bottomCTA, { bottom }]}>
 					{PremiumOptions.map((option, index) => (
-						<BlurView
+						<Pressable
 							key={index}
-							style={[
-								styles.premiumBase,
-								selectedOption === option.type ? styles.premiumSelected : styles.premiumUnselected,
-							]}
-							tint='dark'>
-							<View style={[styles.ctaRadioButtonBase]} />
-							<FontedText text={option.title} key={index} style={styles.ctaTitle} />
-						</BlurView>
+							onPress={() => {
+								option.type !== selectedOption && setselectedOption(option.type);
+							}}>
+							<BlurView
+								style={[
+									styles.premiumBase,
+									selectedOption === option.type ? styles.premiumSelected : styles.premiumUnselected,
+								]}
+								tint='dark'>
+								{selectedOption === option.type && option.type === "yearly" && (
+									<View style={styles.promotionalTextContainer}>
+										<FontedText text='Save 50%' style={styles.promotionalText} fontWeight='medium' />
+									</View>
+								)}
+								{selectedOption === option.type ? (
+									<View style={[styles.ctaRadioButtonBase, styles.ctaRadioButtonSelected]}>
+										<View style={styles.ctaRadioButtonInner} />
+									</View>
+								) : (
+									<View style={[styles.ctaRadioButtonBase, styles.ctaRadioButtonUnselected]} />
+								)}
+								<View>
+									<FontedText text={option.title} style={styles.ctaTitle} />
+									<View style={styles.descriptions}>
+										<FontedText
+											text={option.descriptionOne.text}
+											style={styles.ctaDescription}
+											fontWeight={option.descriptionOne.isBold ? "regular" : "light"}
+										/>
+										<FontedText text={option.descriptionTwo.text} style={styles.ctaDescription} />
+									</View>
+								</View>
+							</BlurView>
+						</Pressable>
 					))}
+					<Button text='Try free for 3 days' style={styles.cta} onPress={handlePremium} />
+					<View style={styles.bottomInfo}>
+						<FontedText
+							text='After the 3-day free trial period you’ll be charged ₺274.99 per year unless you cancel before the trial expires. Yearly Subscription is Auto-Renewable'
+							style={styles.information}
+						/>
+						<View style={styles.termsPrivacyRestore}>
+							<FontedText text='Terms' style={styles.termsPrivactRestoreText} />
+							<View style={styles.dot} />
+							<FontedText text='Privacy' style={styles.termsPrivactRestoreText} />
+							<View style={styles.dot} />
+							<FontedText text='Restore' style={styles.termsPrivactRestoreText} />
+						</View>
+					</View>
 				</View>
 			</View>
 		</View>
@@ -160,14 +212,17 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		marginBottom: 8,
 	},
-	header: { flex: 1, paddingHorizontal: responsiveSpacing(24) },
+	header: {
+		flex: 1,
+		paddingHorizontal: responsiveSpacing(24),
+		marginTop: isSmallDevice ? -80 : undefined,
+	},
 	premiumBase: {
-		width: DEVICE_WIDTH * 0.9,
+		width: DEVICE_WIDTH * 0.85,
 		alignSelf: "center",
 		borderRadius: 14,
-
-		paddingVertical: 18,
-		paddingHorizontal: 12,
+		paddingVertical: responsiveSpacing(16),
+		paddingHorizontal: responsiveSpacing(12),
 		marginVertical: 5,
 		flexDirection: "row",
 		alignItems: "center",
@@ -175,8 +230,8 @@ const styles = StyleSheet.create({
 	},
 	premiumSelected: {
 		borderWidth: 1.5,
-		backgroundColor: "rgba(255,255,255,0.1)",
-		borderColor: "rgba(100,100,100,0.5)",
+		backgroundColor: "rgb(19,30,23)",
+		borderColor: "#28AF6E",
 	},
 	premiumUnselected: {
 		borderWidth: 1,
@@ -186,7 +241,6 @@ const styles = StyleSheet.create({
 	bottomCTA: {
 		position: "absolute",
 		alignSelf: "center",
-		bottom: 0,
 	},
 	ctaTitle: {
 		color: "white",
@@ -194,17 +248,82 @@ const styles = StyleSheet.create({
 	ctaRadioButtonBase: {
 		width: 24,
 		height: 24,
+		borderRadius: 50,
+		marginRight: 8,
 	},
 	ctaRadioButtonSelected: {
-		width: 24,
-		height: 24,
+		backgroundColor: "#28AF6E",
+		alignItems: "center",
+		justifyContent: "center",
 	},
 	ctaRadioButtonUnselected: {
-		width: 20,
-		height: 20,
+		backgroundColor: "rgba(100,100,100,0.5)",
 	},
 	ctaRadioButtonInner: {
-		width: 5,
-		height: 5,
+		width: 10,
+		height: 10,
+		backgroundColor: "white",
+		borderRadius: 50,
+	},
+	cta: {
+		marginTop: 16,
+		width: isSmallDevice ? DEVICE_WIDTH * 0.85 : DEVICE_WIDTH * 0.86,
+		alignSelf: "center",
+	},
+	descriptions: {
+		flexDirection: "row",
+	},
+	ctaDescription: {
+		color: "rgba(255,255,255,0.7)",
+		fontSize: responsiveFontSize(12),
+	},
+	promotionalText: {
+		color: "white",
+		fontSize: responsiveFontSize(12),
+		lineHeight: 18,
+	},
+	promotionalTextContainer: {
+		borderBottomLeftRadius: 20,
+		zIndex: 2,
+		backgroundColor: "#28AF6E",
+		position: "absolute",
+		top: 0,
+		right: 0,
+		paddingHorizontal: 12,
+		paddingVertical: 4,
+		shadowColor: "#28AF6E",
+		shadowOffset: {
+			width: -20,
+			height: 25,
+		},
+		shadowOpacity: 1,
+		shadowRadius: 50,
+	},
+	information: {
+		fontSize: responsiveFontSize(8),
+		color: "rgba(255,255,255,0.7)",
+		textAlign: "center",
+	},
+	termsPrivacyRestore: {
+		flexDirection: "row",
+		alignItems: "center",
+	},
+	dot: {
+		width: 2,
+		height: 2,
+		backgroundColor: "rgba(255,255,255,0.7)",
+		borderRadius: 50,
+		marginHorizontal: 8,
+	},
+	bottomInfo: {
+		width: responsiveSpacing(DEVICE_WIDTH * 0.82),
+		marginVertical: 6,
+		gap: 8,
+		alignItems: "center",
+		justifyContent: "center",
+	},
+	termsPrivactRestoreText: {
+		fontSize: responsiveFontSize(11),
+		color: "rgba(255,255,255,0.7)",
 	},
 });

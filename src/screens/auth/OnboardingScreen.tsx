@@ -5,7 +5,7 @@ import { AuthStackParams } from "../../utils/types";
 import { SafeAreaView } from "react-native-safe-area-context";
 import OnboardingOne from "../../components/OnboardingOne";
 import OnboardingTwo from "../../components/OnboardingTwo";
-import { DEVICE_WIDTH } from "../../utils/constants";
+import { DEVICE_WIDTH, isSmallDevice } from "../../utils/constants";
 import { responsiveSpacing } from "../../utils/helpers";
 import Button from "../../components/Button";
 
@@ -18,7 +18,7 @@ const OnboardingScreen = ({ navigation, route }: Props) => {
 		scrollRef.current?.scrollToEnd();
 		activeIndicator === 1 ? setActiveIndicator(2) : goToPaywall();
 	};
-	const goToPaywall = () => navigation.navigate("PaywallScreen", { defaulOption: "year" });
+	const goToPaywall = () => navigation.navigate("PaywallScreen", { defaulOption: "yearly" });
 	return (
 		<SafeAreaView style={styles.container}>
 			<ScrollView
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		gap: 15,
 		backgroundColor: "#fafafa",
-		marginBottom: responsiveSpacing(32),
+		marginBottom: isSmallDevice ? 15 : 32,
 		shadowColor: "white",
 		shadowOffset: {
 			height: -15,

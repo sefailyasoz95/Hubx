@@ -1,5 +1,5 @@
 import { Dimensions } from "react-native";
-import { FontTypes, PaywallOptionType } from "./types";
+import { FontTypes, PaywallOptionType, PremiumTypes } from "./types";
 
 export const DEVICE_WIDTH = Dimensions.get("window").width;
 export const DEVICE_HEIGHT = Dimensions.get("window").height;
@@ -42,7 +42,7 @@ export const PaywallFeatures: Array<PaywallOptionType> = [
 export const PremiumOptions = [
 	{
 		id: 1,
-		type: "monthly",
+		type: "monthly" as PremiumTypes,
 		title: "1 Month",
 		descriptionOne: {
 			text: "$2.99/month, ",
@@ -56,7 +56,7 @@ export const PremiumOptions = [
 	{
 		id: 2,
 		title: "1 Year",
-		type: "yearly",
+		type: "yearly" as PremiumTypes,
 		descriptionOne: {
 			text: "First 3 days free, ",
 			isBold: true,
