@@ -20,7 +20,7 @@ const GetStartedScreen = ({ navigation, route }: Props) => {
 			<View style={styles.header}>
 				<View style={styles.welcomeTextContainer}>
 					<FontedText text='Welcome to ' style={styles.welcomeText} />
-					<FontedText text='PlantApp' fontType='bold' style={styles.welcomeText} />
+					<FontedText text='PlantApp' fontWeight='bold' style={styles.welcomeText} />
 				</View>
 				<FontedText text='Identify more than 3000+ plants and 88% accuracy.' style={styles.subtext} />
 			</View>

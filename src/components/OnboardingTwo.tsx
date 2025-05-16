@@ -5,18 +5,16 @@ import { Image } from "expo-image";
 import { responsiveFontSize, responsiveSpacing } from "../utils/helpers";
 import { DEVICE_HEIGHT, DEVICE_WIDTH, isSmallDevice } from "../utils/constants";
 
-type Props = {
-	onContinue: () => void;
-};
+type Props = {};
 
-const OnboardingTwo = ({ onContinue }: Props) => {
+const OnboardingTwo = ({}: Props) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
 				<View style={styles.welcomeTextContainer}>
-					<FontedText text='Get plant ' fontType='medium' style={styles.welcomeText} />
+					<FontedText text='Get plant ' fontWeight='medium' style={styles.welcomeText} />
 					<View>
-						<FontedText text='care guides' fontType='extraBold' style={styles.welcomeText} />
+						<FontedText text='care guides' fontWeight='extraBold' style={styles.welcomeText} />
 						<Image
 							source={require("../assets/images/underline-shadow.png")} // there is a shadow in the figma file for the underline thing but the exported asset does not have it
 							style={styles.underline}

@@ -1,5 +1,5 @@
-import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import { FlatList, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import {
 	AuthStackParams,
@@ -20,8 +20,6 @@ import { BlurView } from "expo-blur";
 type Props = NativeStackScreenProps<AuthStackParams, "PaywallScreen">;
 
 const PaywallScreen = ({ navigation, route }: Props) => {
-	const { defaulOption } = route.params;
-	const [selectedOption, setselectedOption] = useState<"yearly" | "monthly">(defaulOption ?? "yearly");
 	const handleX = () => {};
 	const renderIcon = (iconLibrary: PaywallOptionType["iconLibrary"], iconName: IconName) => {
 		switch (iconLibrary) {
@@ -66,16 +64,9 @@ const PaywallScreen = ({ navigation, route }: Props) => {
 				/>
 				<View style={styles.bottomCTA}>
 					{PremiumOptions.map((option, index) => (
-						<BlurView
-							key={index}
-							style={[
-								styles.premiumBase,
-								selectedOption === option.type ? styles.premiumSelected : styles.premiumUnselected,
-							]}
-							tint='dark'>
-							<View style={[styles.ctaRadioButtonBase]} />
-							<FontedText text={option.title} key={index} style={styles.ctaTitle} />
-						</BlurView>
+						<Pressable key={index} style={styles.premiumSelected}>
+							<FontedText text={option.title} key={index} />
+						</Pressable>
 					))}
 				</View>
 			</View>
@@ -95,9 +86,11 @@ const styles = StyleSheet.create({
 		aspectRatio: isSmallDevice ? 0.99 : 0.74,
 	},
 	content: {
+		// backgroundColor: "black",
 		position: "absolute",
 		height: DEVICE_HEIGHT,
 		width: DEVICE_WIDTH,
+		justifyContent: "space-between",
 	},
 	x: {
 		backgroundColor: "rgba(0,0,0,0.5)",
@@ -161,50 +154,19 @@ const styles = StyleSheet.create({
 		marginBottom: 8,
 	},
 	header: { flex: 1, paddingHorizontal: responsiveSpacing(24) },
-	premiumBase: {
+	premiumSelected: {
 		width: DEVICE_WIDTH * 0.9,
 		alignSelf: "center",
 		borderRadius: 14,
-
+		borderWidth: 1.5,
 		paddingVertical: 18,
 		paddingHorizontal: 12,
 		marginVertical: 5,
-		flexDirection: "row",
-		alignItems: "center",
-		overflow: "hidden",
-	},
-	premiumSelected: {
-		borderWidth: 1.5,
-		backgroundColor: "rgba(255,255,255,0.1)",
-		borderColor: "rgba(100,100,100,0.5)",
-	},
-	premiumUnselected: {
-		borderWidth: 1,
-		backgroundColor: "rgba(255,255,255,0.1)",
+		backgroundColor: "rgba(100,100,100,0.5)",
 		borderColor: "rgba(100,100,100,0.5)",
 	},
 	bottomCTA: {
 		position: "absolute",
-		alignSelf: "center",
 		bottom: 0,
-	},
-	ctaTitle: {
-		color: "white",
-	},
-	ctaRadioButtonBase: {
-		width: 24,
-		height: 24,
-	},
-	ctaRadioButtonSelected: {
-		width: 24,
-		height: 24,
-	},
-	ctaRadioButtonUnselected: {
-		width: 20,
-		height: 20,
-	},
-	ctaRadioButtonInner: {
-		width: 5,
-		height: 5,
 	},
 });

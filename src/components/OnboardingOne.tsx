@@ -14,12 +14,12 @@ const OnboardingOne = ({ onContinue }: Props) => {
 		<View style={styles.container}>
 			<View style={styles.header}>
 				<View style={styles.welcomeTextContainer}>
-					<FontedText text='Take a photo to ' fontType='medium' style={styles.welcomeText} />
+					<FontedText text='Take a photo to ' fontWeight='medium' style={styles.welcomeText} />
 					<View>
-						<FontedText text='Identify' fontType='extraBold' style={styles.welcomeText} />
+						<FontedText text='Identify' fontWeight='extraBold' style={styles.welcomeText} />
 						<Image source={require("../assets/images/underline.png")} style={styles.underline} contentFit='contain' />
 					</View>
-					<FontedText text='the plant!' fontType='medium' style={styles.welcomeText} />
+					<FontedText text='the plant!' fontWeight='medium' style={styles.welcomeText} />
 				</View>
 				<FontedText text='Identify more than 3000+ plants and 88% accuracy.' style={styles.subtext} />
 			</View>

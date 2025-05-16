@@ -14,15 +14,11 @@ type Props = NativeStackScreenProps<AuthStackParams, "OnboardingScreen">;
 const OnboardingScreen = ({ navigation, route }: Props) => {
 	const [activeIndicator, setActiveIndicator] = useState<number>(1);
 	const scrollRef = createRef<ScrollView>();
-	const scrollToEnd = () => {
+	const goNext = () => {
 		scrollRef.current?.scrollToEnd();
-		setActiveIndicator(2);
+		activeIndicator === 1 ? setActiveIndicator(2) : goToPaywall();
 	};
-	const scrollToStart = () => {
-		scrollRef.current?.scrollTo({ x: 0, animated: true });
-		setActiveIndicator(1);
-	};
-
+	const goToPaywall = () => navigation.navigate("PaywallScreen", { defaulOption: "year" });
 	return (
 		<SafeAreaView style={styles.container}>
 			<ScrollView
@@ -31,16 +27,11 @@ const OnboardingScreen = ({ navigation, route }: Props) => {
 				scrollEnabled={false}
 				horizontal
 				showsHorizontalScrollIndicator={false}>
-				<OnboardingOne onContinue={scrollToEnd} />
-				<OnboardingTwo onContinue={scrollToStart} />
+				<OnboardingOne onContinue={goNext} />
+				<OnboardingTwo />
 			</ScrollView>
 			<View style={styles.bottomSection}>
-				<Button
-					text='Continue'
-					onPress={() => {
-						activeIndicator === 1 ? scrollToEnd() : scrollToStart();
-					}}
-				/>
+				<Button text='Continue' onPress={goNext} />
 				<View style={styles.indicators}>
 					{[1, 2].map((item) => (
 						<View style={item === activeIndicator ? styles.activeIndicator : styles.inactiveIndicator} key={item} />
@@ -93,10 +84,10 @@ const styles = StyleSheet.create({
 		marginBottom: responsiveSpacing(32),
 		shadowColor: "white",
 		shadowOffset: {
-			height: -10,
+			height: -15,
 			width: 0,
 		},
-		shadowOpacity: 0.5,
+		shadowOpacity: 0.7,
 		shadowRadius: 10,
 	},
 });

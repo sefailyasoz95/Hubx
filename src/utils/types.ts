@@ -1,3 +1,12 @@
+import { Ionicons, MaterialIcons, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+
+export type IoniconName = keyof typeof Ionicons.glyphMap;
+export type MaterialIconName = keyof typeof MaterialIcons.glyphMap;
+export type FontAwesomeName = keyof typeof FontAwesome.glyphMap;
+export type MaterialCommunityIconsName = keyof typeof MaterialCommunityIcons.glyphMap;
+
+export type IconName = IoniconName | MaterialIconName | FontAwesomeName | MaterialCommunityIconsName;
+
 export type TabStackParams = {
 	HomeScreen: undefined;
 	DiagnoseScreen: undefined;
@@ -10,7 +19,7 @@ export type AuthStackParams = {
 	OnboardingScreen: undefined;
 	GetStartedScreen: undefined;
 	PaywallScreen: {
-		defaulOption?: string;
+		defaulOption?: "yearly" | "monthly";
 	};
 };
 
@@ -70,3 +79,10 @@ export type CategoryType = {
 };
 
 export type FontTypes = "light" | "regular" | "medium" | "bold" | "extraBold";
+export type PaywallOptionType = {
+	id: number;
+	icon: IconName;
+	iconLibrary: "Ionicons" | "MaterialIcons" | "FontAwesome" | "MaterialCommunityIcons";
+	title: string;
+	subtitle: string;
+};

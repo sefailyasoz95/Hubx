@@ -4,25 +4,25 @@ import { FontTypes } from "../utils/types";
 
 type Props = TextProps & {
 	text: string;
-	fontType?: FontTypes;
+	fontWeight?: FontTypes;
 };
 
-const FontedText = ({ text, fontType = "regular", ...props }: Props) => {
+const FontedText = ({ text, fontWeight = "regular", ...props }: Props) => {
 	const fontFamily = useMemo<TextStyle>(() => {
 		return {
 			fontFamily:
-				fontType === "regular"
+				fontWeight === "regular"
 					? "RubikRegular"
-					: fontType === "light"
+					: fontWeight === "light"
 					? "RubikItalic"
-					: fontType === "bold"
+					: fontWeight === "bold"
 					? "RubikBold"
-					: fontType === "medium"
+					: fontWeight === "medium"
 					? "RubikMedium"
 					: "RubikExtraBold",
 			letterSpacing: 0.25,
 		};
-	}, [fontType]);
+	}, [fontWeight]);
 	return (
 		<Text {...props} style={[fontFamily, props.style]}>
 			{text}
