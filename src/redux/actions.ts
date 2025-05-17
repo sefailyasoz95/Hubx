@@ -4,10 +4,9 @@ import { axiosClient } from "../utils/axiosClient";
 export const getQuestions = createAsyncThunk("getQuestions", async () => {
 	try {
 		const response = await axiosClient.get("/getQuestions");
-		console.log("getQuestions response: ", response.data);
 
 		return {
-			data: [],
+			data: response.data,
 			message: "",
 			success: true,
 		};
@@ -22,10 +21,9 @@ export const getQuestions = createAsyncThunk("getQuestions", async () => {
 export const getCategories = createAsyncThunk("getCategories", async () => {
 	try {
 		const response = await axiosClient.get("/getCategories");
-		console.log("getCategories response: ", response.data);
 
 		return {
-			data: [],
+			data: response.data.data,
 			message: "",
 			success: true,
 		};
